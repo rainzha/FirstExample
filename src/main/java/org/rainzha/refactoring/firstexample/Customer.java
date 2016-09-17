@@ -31,12 +31,7 @@ class Customer {
         while (rentals.hasMoreElements()) {
             Rental each = (Rental) rentals.nextElement();
 
-            // add frequent renter points（累加常客积点）
-            frequentRenterPoints++;
-            // add bonus for a two day new release rental
-            if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE)
-                    && each.getDaysRented() > 1)
-                frequentRenterPoints++;
+            frequentRenterPoints += getFrequentRenterPoints(each);
 
             // show figures for this rental（显示此笔租借数据）
             result += "\t" + each.getMovie().getTitle() + "\t" +
@@ -49,5 +44,13 @@ class Customer {
         result += "You earned " + String.valueOf(frequentRenterPoints) +
                 " frequent renter points";
         return result;
+    }
+
+    private int getFrequentRenterPoints(Rental aRental) {
+        if ((aRental.getMovie().getPriceCode() == Movie.NEW_RELEASE)
+                && aRental.getDaysRented() > 1)
+            return 2;
+        else
+            return 1;
     }
 }
